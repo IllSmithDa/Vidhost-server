@@ -10,10 +10,10 @@ const MongoStore = require('connect-mongo')(session);
 const server = express();
 const routes = require('./api/routes/routes');
 const port = 5000;
-
+const config = require('./config')
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/vidhost_users', { useMongoClient: true });
+mongoose.connect(`mongodb://${config.username}:${config.password}@ds117469.mlab.com:17469/vidhost`, { useMongoClient: true });
 server.use(bodyParser.json());
 const corsOption = {
   origin: 'http://localhost:3000',
@@ -33,7 +33,7 @@ server.listen(port, () => {
 });
 
 server.use(session({
-  store: new MongoStore({url: 'mongodb://localhost/vidhost_users'}),
+  store: new MongoStore({url: `mongodb://${config.username}:${config.password}@ds117469.mlab.com:17469/vidhost`}),
   secret: 'e5SPiqsEtjexkTj3Xqovsjzq8ovjfgVDFMfUzSmJO21dtXs4re',
   resave: false,
   saveUninitialized: false,
